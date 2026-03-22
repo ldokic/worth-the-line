@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Worth The Line? · NYC</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface2: #1a1a24;
+      --border: #252535;
+      --text: #f0ece4;
+      --muted: #6b6880;
+      --accent: #ff5c5c;
+      --accent2: #ff9e5c;
+      --green: #4fd17a;
+      --red: #ff5c5c;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── SKIP LINK ── */
+    .skip-link {
+      position: absolute; top: -100%; left: 1rem;
+      background: var(--accent); color: #fff; font-weight: 700;
+      padding: 0.5rem 1rem; border-radius: 0 0 8px 8px; z-index: 999;
+    }
+    .skip-link:focus { top: 0; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    /* ── HEADER ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0;
+      background: rgba(10,10,15,0.92);
+      backdrop-filter: blur(16px); z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1.1rem; letter-spacing: -0.02em;
+      display: flex; align-items: center; gap: 0.5rem; cursor: pointer;
+    }
+
+    .logo-mark {
+      background: var(--accent); color: #fff;
+      width: 26px; height: 26px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; font-weight: 800;
+    }
+
+    .header-right { display: flex; align-items: center; gap: 0.8rem; }
+
+    .nyc-badge {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; border: 1px solid var(--border);
+      color: var(--muted); padding: 0.2rem 0.65rem; border-radius: 2rem;
+    }
+
+    .live-badge {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; background: var(--accent); color: #fff;
+      padding: 0.2rem 0.65rem; border-radius: 2rem;
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+
+    .live-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: #fff;
+      animation: blink 1.4s ease-in-out infinite;
+    }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+    /* ── NAV TABS ── */
+    .nav-tabs {
+      display: flex; gap: 0; border-bottom: 1px solid var(--border);
+      max-width: 860px; margin: 0 auto; padding: 0 2rem;
+    }
+
+    .tab-btn {
+      background: none; border: none; color: var(--muted);
+      font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500;
+      padding: 0.9rem 1.2rem; cursor: pointer;
+      border-bottom: 2px solid transparent; margin-bottom: -1px;
+      transition: all 0.15s;
+    }
+
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+
+    /* ── PAGES ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── SEARCH PAGE ── */
+    .search-hero {
+      max-width: 860px; margin: 0 auto;
+      padding: 3.5rem 2rem 2rem;
+    }
+
+    .search-hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800; line-height: 1.06;
+      letter-spacing: -0.03em; margin-bottom: 0.9rem;
+    }
+
+    .search-hero h1 em {
+      font-style: normal;
+      -webkit-text-stroke: 1.5px var(--accent); color: transparent;
+    }
+
+    .search-hero p {
+      color: var(--muted); font-size: 0.98rem;
+      max-width: 440px; font-weight: 300; margin-bottom: 1.8rem;
+    }
+
+    /* search bar */
+    .search-wrap {
+      position: relative; max-width: 500px;
+    }
+
+    .search-icon {
+      position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+      color: var(--muted); pointer-events: none; font-size: 1rem;
+    }
+
+    #search-input {
+      width: 100%; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 12px;
+      color: var(--text); font-family: 'DM Sans', sans-serif;
+      font-size: 0.98rem; padding: 0.85rem 1rem 0.85rem 2.8rem;
+      outline: none; transition: border-color 0.2s;
+    }
+
+    #search-input:focus { border-color: var(--accent); }
+    #search-input::placeholder { color: var(--muted); opacity: 0.6; }
+
+    /* hood filter */
+    .hood-filter {
+      max-width: 860px; margin: 0 auto;
+      padding: 0 2rem 1.5rem;
+      display: flex; gap: 0.4rem; flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-label {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted); margin-right: 0.3rem;
+    }
+
+    .hood-pill {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 2rem; color: var(--muted);
+      font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500;
+      padding: 0.25rem 0.8rem; cursor: pointer; transition: all 0.15s;
+    }
+
+    .hood-pill:hover { border-color: var(--accent); color: var(--text); }
+    .hood-pill.active { background: rgba(255,92,92,0.1); border-color: var(--accent); color: var(--accent); }
+
+    /* venue cards grid */
+    .venues-section {
+      max-width: 860px; margin: 0 auto; padding: 0 2rem 4rem;
+    }
+
+    .section-meta {
+      font-size: 0.75rem; color: var(--muted); margin-bottom: 1rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .venues-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+      gap: 1rem;
+    }
+
+    .venue-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.4rem;
+      cursor: pointer; transition: border-color 0.2s, transform 0.15s;
+      position: relative; overflow: hidden;
+    }
+
+    .venue-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .venue-card-top {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; margin-bottom: 0.9rem;
+    }
+
+    .venue-name {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 1rem; letter-spacing: -0.01em; line-height: 1.3;
+      flex: 1; padding-right: 0.5rem;
+    }
+
+    .venue-type-badge {
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.06em;
+      text-transform: uppercase; background: var(--surface2);
+      border: 1px solid var(--border); color: var(--muted);
+      padding: 0.15rem 0.55rem; border-radius: 2rem; white-space: nowrap;
+    }
+
+    .venue-stats {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .v-stat { text-align: center; }
+
+    .v-stat-num {
+      font-family: 'Syne', sans-serif; font-size: 1.4rem;
+      font-weight: 800; letter-spacing: -0.03em; line-height: 1;
+    }
+
+    .v-stat-num.green { color: var(--green); }
+    .v-stat-num.red   { color: var(--red);   }
+    .v-stat-num.gold  { color: var(--accent2); }
+
+    .v-stat-label {
+      font-size: 0.65rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.07em; margin-top: 0.15rem;
+    }
+
+    .venue-footer {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .venue-hood {
+      font-size: 0.75rem; color: var(--accent2); font-weight: 500;
+    }
+
+    .venue-freshness {
+      font-size: 0.7rem; color: var(--muted);
+    }
+
+    .worth-bar {
+      height: 3px; border-radius: 3px; margin-bottom: 0.9rem;
+      background: var(--surface2); overflow: hidden;
+    }
+
+    .worth-bar-fill {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, var(--red), var(--green));
+      transition: width 0.4s ease;
+    }
+
+    .empty-state {
+      text-align: center; color: var(--muted);
+      padding: 4rem 1rem; grid-column: 1/-1;
+    }
+
+    .empty-icon { font-size: 2.5rem; display: block; margin-bottom: 0.5rem; opacity: 0.3; }
+
+    /* ── SPOT DETAIL MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+      z-index: 200; align-items: center; justify-content: center; padding: 1rem;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 2rem; width: 100%; max-width: 480px;
+      max-height: 85vh; overflow-y: auto;
+      animation: modalIn 0.2s ease;
+    }
+
+    @keyframes modalIn { from{opacity:0;transform:scale(0.96)} to{opacity:1;transform:scale(1)} }
+
+    .modal-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-title {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1.4rem; letter-spacing: -0.02em; line-height: 1.2;
+    }
+
+    .modal-close {
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--muted); width: 32px; height: 32px; border-radius: 8px;
+      cursor: pointer; font-size: 1rem; display: flex;
+      align-items: center; justify-content: center; flex-shrink: 0;
+      transition: color 0.15s;
+    }
+
+    .modal-close:hover { color: var(--text); }
+
+    .modal-big-stats {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-stat {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1rem; text-align: center;
+    }
+
+    .modal-stat-num {
+      font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800;
+      letter-spacing: -0.04em; line-height: 1; color: var(--accent);
+    }
+
+    .modal-stat-num.green { color: var(--green); }
+    .modal-stat-num.gold  { color: var(--accent2); }
+
+    .modal-stat-label {
+      font-size: 0.68rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.07em; margin-top: 0.2rem;
+    }
+
+    .modal-section-title {
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.82rem;
+      letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .modal-reports { display: flex; flex-direction: column; gap: 0.55rem; }
+
+    .modal-report-item {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 0.75rem 0.9rem;
+      display: flex; align-items: center; gap: 0.6rem;
+      border-left: 3px solid transparent;
+    }
+
+    .modal-report-item.worth     { border-left-color: var(--green); }
+    .modal-report-item.not-worth { border-left-color: var(--red); }
+
+    .modal-report-wait {
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem;
+      color: var(--text); min-width: 52px;
+    }
+
+    .modal-report-worth {
+      font-size: 0.75rem; font-weight: 600; border-radius: 2rem;
+      padding: 0.1rem 0.55rem;
+    }
+
+    .modal-report-worth.yes { background: rgba(79,209,122,0.12); color: var(--green); }
+    .modal-report-worth.no  { background: rgba(255,92,92,0.10);  color: var(--red);   }
+
+    .modal-report-time { font-size: 0.72rem; color: var(--muted); margin-left: auto; }
+
+    /* ── REPORT PAGE ── */
+    .report-page {
+      max-width: 520px; margin: 0 auto; padding: 3rem 2rem 5rem;
+    }
+
+    .report-page h2 {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1.8rem; letter-spacing: -0.02em; margin-bottom: 0.4rem;
+    }
+
+    .report-page > p {
+      color: var(--muted); font-size: 0.92rem; margin-bottom: 2rem;
+    }
+
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 18px; padding: 1.8rem;
+    }
+
+    .field { margin-bottom: 1.1rem; }
+
+    label {
+      display: block; font-size: 0.73rem; font-weight: 600;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.4rem;
+    }
+
+    input[type="text"], input[type="number"], select {
+      width: 100%; background: var(--surface2);
+      border: 1px solid var(--border); border-radius: 10px;
+      color: var(--text); font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem; padding: 0.68rem 0.95rem;
+      outline: none; transition: border-color 0.2s; appearance: none;
+    }
+
+    input:focus, select:focus { border-color: var(--accent); }
+    input::placeholder { color: var(--muted); opacity: 0.6; }
+    select option { background: #1a1a24; }
+
+    .hood-grid { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .hood-tag {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 2rem; color: var(--muted);
+      font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500;
+      padding: 0.25rem 0.75rem; cursor: pointer; transition: all 0.15s;
+    }
+
+    .hood-tag:hover { border-color: var(--accent); color: var(--text); }
+    .hood-tag.selected { background: rgba(255,92,92,0.1); border-color: var(--accent); color: var(--accent); }
+
+    .toggle-group { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+
+    .toggle-btn {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--muted);
+      font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500;
+      padding: 0.65rem; cursor: pointer; transition: all 0.15s;
+    }
+
+    .toggle-btn:hover { border-color: var(--accent); color: var(--text); }
+    .toggle-btn.active-yes { background: rgba(79,209,122,0.12); border-color: var(--green); color: var(--green); }
+    .toggle-btn.active-no  { background: rgba(255,92,92,0.10);  border-color: var(--red);   color: var(--red);   }
+
+    .submit-btn {
+      width: 100%; background: var(--accent); color: #fff; border: none;
+      border-radius: 10px; font-family: 'Syne', sans-serif; font-size: 0.92rem;
+      font-weight: 700; letter-spacing: 0.03em; padding: 0.85rem;
+      cursor: pointer; margin-top: 0.6rem; transition: opacity 0.15s, transform 0.1s;
+    }
+
+    .submit-btn:hover { opacity: 0.85; }
+    .submit-btn:active { transform: scale(0.98); }
+
+    .toast {
+      display: none; margin-top: 0.75rem;
+      background: rgba(79,209,122,0.1); border: 1px solid var(--green);
+      color: var(--green); border-radius: 8px;
+      padding: 0.55rem 1rem; font-size: 0.82rem; text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .venues-grid { grid-template-columns: 1fr; }
+      .modal-big-stats { grid-template-columns: repeat(3,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <div class="logo" onclick="switchTab('search')" aria-label="Worth The Line NYC, go home">
+      <div class="logo-mark" aria-hidden="true">?</div>
+      Worth The Line
+    </div>
+    <div class="header-right">
+      <span class="nyc-badge" aria-label="New York City">NYC</span>
+      <span class="live-badge" aria-label="Live data">
+        <span class="live-dot" aria-hidden="true"></span>Live
+      </span>
+    </div>
+  </header>
+
+  <nav class="nav-tabs" role="tablist" aria-label="App sections">
+    <button class="tab-btn active" id="tab-search" role="tab" aria-selected="true"  aria-controls="page-search" onclick="switchTab('search')">🔍 Find a Spot</button>
+    <button class="tab-btn"        id="tab-report" role="tab" aria-selected="false" aria-controls="page-report" onclick="switchTab('report')">📍 Report a Wait</button>
+  </nav>
+
+  <div id="main-content">
+
+    <!-- ══ SEARCH PAGE ══ -->
+    <div class="page active" id="page-search" role="tabpanel" aria-labelledby="tab-search">
+
+      <div class="search-hero">
+        <h1>Is the wait<br><em>worth it?</em></h1>
+        <p>Search any NYC bar, lounge, or restaurant to see real-time crowd-sourced wait times before you head out.</p>
+        <div class="search-wrap">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input type="text" id="search-input" placeholder="Search a spot — e.g. Employees Only…"
+                 aria-label="Search for a venue" autocomplete="off"
+                 oninput="renderVenues()" />
+        </div>
+      </div>
+
+      <div class="hood-filter" role="group" aria-label="Filter by neighborhood">
+        <span class="filter-label" aria-hidden="true">Area:</span>
+        <button class="hood-pill active" onclick="filterHood(this, 'All')" aria-pressed="true">All</button>
+        <button class="hood-pill" onclick="filterHood(this, 'LES')" aria-pressed="false">LES</button>
+        <button class="hood-pill" onclick="filterHood(this, 'East Village')" aria-pressed="false">East Village</button>
+        <button class="hood-pill" onclick="filterHood(this, 'West Village')" aria-pressed="false">West Village</button>
+        <button class="hood-pill" onclick="filterHood(this, 'Midtown')" aria-pressed="false">Midtown</button>
+        <button class="hood-pill" onclick="filterHood(this, 'Chelsea')" aria-pressed="false">Chelsea</button>
+        <button class="hood-pill" onclick="filterHood(this, 'SoHo')" aria-pressed="false">SoHo</button>
+        <button class="hood-pill" onclick="filterHood(this, 'Williamsburg')" aria-pressed="false">Williamsburg</button>
+        <button class="hood-pill" onclick="filterHood(this, 'Astoria')" aria-pressed="false">Astoria</button>
+        <button class="hood-pill" onclick="filterHood(this, 'Harlem')" aria-pressed="false">Harlem</button>
+      </div>
+
+      <section class="venues-section" aria-label="Venue wait times">
+        <div class="section-meta">
+          <span id="venues-count" aria-live="polite">0 spots reported</span>
+          <span style="font-size:0.72rem;color:var(--muted);">Tap a card for details</span>
+        </div>
+        <div class="venues-grid" id="venues-grid" aria-live="polite"></div>
+      </section>
+    </div>
+
+    <!-- ══ REPORT PAGE ══ -->
+    <div class="page" id="page-report" role="tabpanel" aria-labelledby="tab-report">
+      <div class="report-page">
+        <h2>Report a Wait</h2>
+        <p>Help your community — share the line situation at a spot you're at right now.</p>
+
+        <div class="card">
+          <div id="report-form" role="form" aria-label="Submit a wait time report">
+
+            <div class="field">
+              <label for="location">Spot Name</label>
+              <input type="text" id="location" placeholder="e.g. Employees Only, Carbone" autocomplete="off" required aria-required="true" />
+            </div>
+
+            <div class="field">
+              <label id="hood-label">Neighborhood</label>
+              <div class="hood-grid" role="group" aria-labelledby="hood-label">
+                <button type="button" class="hood-tag" onclick="selectHood(this)" aria-pressed="false">LES</button>
+                <button type="button" class="hood-tag" onclick="selectHood(this)" aria-pressed="false">East Village</button>
+                <button type="button" class="hood-tag" onclick="selectHood(this)" aria-pressed="false">West Village</button>
+                <button type="button" class="hood-tag" onclick="selectHood(this)" aria-pressed="false">Midtown</button>
+                <button type="button" class="hood-tag" onclick="selectHood(this)" aria-pressed="false">Chelsea</button>
+                <button type="button" class="hood-tag" onclick="selectHood(this)" aria-pressed="false">SoHo</button>
+                <button type="button" class="hood-tag" onclick="selectHood(this)" aria-pressed="false">Williamsburg</button>
+                <button type="button" class="hood-tag" onclick="selectHood(this)" aria-pressed="false">Astoria</button>
+                <button type="button" class="hood-tag" onclick="selectHood(this)" aria-pressed="false">Harlem</button>
+                <button type="button" class="hood-tag" onclick="selectHood(this)" aria-pressed="false">Other</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="venue-type">Type</label>
+              <select id="venue-type" aria-required="true">
+                <option value="" disabled selected>Select type…</option>
+                <option value="Bar">Bar</option>
+                <option value="Lounge / Club">Lounge / Club</option>
+                <option value="Restaurant">Restaurant</option>
+                <option value="Rooftop">Rooftop</option>
+                <option value="Brunch Spot">Brunch Spot</option>
+                <option value="Speakeasy">Speakeasy</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="wait-time">Wait Time (minutes)</label>
+              <input type="number" id="wait-time" placeholder="e.g. 30" min="0" max="300" required aria-required="true" />
+            </div>
+
+            <div class="field">
+              <label id="worth-label">Worth the line?</label>
+              <div class="toggle-group" role="group" aria-labelledby="worth-label">
+                <button type="button" class="toggle-btn" id="btn-yes" aria-pressed="false" onclick="selectWorth('yes')">✓ Worth it</button>
+                <button type="button" class="toggle-btn" id="btn-no"  aria-pressed="false" onclick="selectWorth('no')">✗ Skip it</button>
+              </div>
+            </div>
+
+            <button type="button" class="submit-btn" onclick="submitReport()" aria-label="Submit wait time report">
+              Submit Report
+            </button>
+
+            <div class="toast" id="toast" role="alert" aria-live="assertive">
+              ✓ Report submitted — thanks for saving someone a cab ride!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main-content -->
+
+  <!-- ══ VENUE DETAIL MODAL ══ -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title"
+       onclick="closeModal(event)">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modal-title"></div>
+          <div style="font-size:0.78rem;color:var(--muted);margin-top:0.2rem;" id="modal-sub"></div>
+        </div>
+        <button class="modal-close" onclick="closeModalBtn()" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-big-stats" id="modal-stats"></div>
+      <div class="worth-bar" aria-hidden="true"><div class="worth-bar-fill" id="modal-bar"></div></div>
+      <div class="modal-section-title">Recent Reports</div>
+      <div class="modal-reports" id="modal-reports" aria-label="Recent wait time reports for this venue"></div>
+    </div>
+  </div>
+
+  <script>
+    // ── State
+    let worthValue = null;
+    let hoodValue  = null;
+    let activeHoodFilter = 'All';
+
+    // ── Storage
+    function getReports() {
+      try { return JSON.parse(localStorage.getItem('wtl_nyc') || '[]'); }
+      catch { return []; }
+    }
+    function saveReports(arr) { localStorage.setItem('wtl_nyc', JSON.stringify(arr)); }
+
+    // ── Helpers
+    function timeAgo(ts) {
+      const d = Math.floor((Date.now() - ts) / 1000);
+      if (d < 60) return 'just now';
+      if (d < 3600) return Math.floor(d/60) + 'm ago';
+      if (d < 86400) return Math.floor(d/3600) + 'h ago';
+      return Math.floor(d/86400) + 'd ago';
+    }
+
+    function esc(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // group reports by venue name (case-insensitive)
+    function groupByVenue(reports) {
+      const map = {};
+      reports.forEach(r => {
+        const key = r.location.trim().toLowerCase();
+        if (!map[key]) map[key] = { name: r.location, hood: r.hood, type: r.type, reports: [] };
+        map[key].reports.push(r);
+      });
+      return Object.values(map);
+    }
+
+    // ── Tab switching
+    function switchTab(tab) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+      document.getElementById('page-' + tab).classList.add('active');
+      document.getElementById('tab-' + tab).classList.add('active');
+      document.getElementById('tab-' + tab).setAttribute('aria-selected','true');
+    }
+
+    // ── Neighborhood filter
+    function filterHood(el, hood) {
+      document.querySelectorAll('.hood-pill').forEach(p => { p.classList.remove('active'); p.setAttribute('aria-pressed','false'); });
+      el.classList.add('active'); el.setAttribute('aria-pressed','true');
+      activeHoodFilter = hood;
+      renderVenues();
+    }
+
+    // ── Render venue cards
+    function renderVenues() {
+      const query  = (document.getElementById('search-input').value || '').trim().toLowerCase();
+      const all    = getReports();
+      let venues   = groupByVenue(all);
+
+      // filter by search
+      if (query) venues = venues.filter(v => v.name.toLowerCase().includes(query));
+
+      // filter by hood
+      if (activeHoodFilter !== 'All') venues = venues.filter(v => v.hood === activeHoodFilter);
+
+      // sort by most recent report
+      venues.sort((a,b) => Math.max(...b.reports.map(r=>r.ts)) - Math.max(...a.reports.map(r=>r.ts)));
+
+      const grid = document.getElementById('venues-grid');
+      const countEl = document.getElementById('venues-count');
+
+      countEl.textContent = venues.length + ' spot' + (venues.length !== 1 ? 's' : '') + ' reported';
+
+      if (!venues.length) {
+        grid.innerHTML = `<div class="empty-state"><span class="empty-icon" aria-hidden="true">🍸</span>${query ? 'No results for "' + esc(query) + '" — try a different name.' : 'No reports yet. Be the first!'}<br><br><button onclick="switchTab(\'report\')" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:0.55rem 1.2rem;font-family:\'DM Sans\',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;">Report a Wait</button></div>`;
+        return;
+      }
+
+      grid.innerHTML = venues.map(v => {
+        const reps     = v.reports;
+        const avg      = Math.round(reps.reduce((s,r)=>s+r.wait,0) / reps.length);
+        const worthPct = Math.round(reps.filter(r=>r.worth==='yes').length / reps.length * 100);
+        const latest   = Math.max(...reps.map(r=>r.ts));
+        const worthColor = worthPct >= 60 ? 'green' : worthPct >= 40 ? 'gold' : 'red';
+
+        return `
+          <div class="venue-card" role="button" tabindex="0"
+               aria-label="${esc(v.name)}, ${avg} min avg wait, ${worthPct}% worth it, ${reps.length} reports"
+               onclick="openModal('${esc(v.name.toLowerCase())}')"
+               onkeydown="if(event.key==='Enter'||event.key===' ')openModal('${esc(v.name.toLowerCase())}')">
+            <div class="venue-card-top">
+              <div class="venue-name">${esc(v.name)}</div>
+              <div class="venue-type-badge">${esc(v.type)}</div>
+            </div>
+            <div class="venue-stats">
+              <div class="v-stat">
+                <div class="v-stat-num gold">${avg}m</div>
+                <div class="v-stat-label">Avg Wait</div>
+              </div>
+              <div class="v-stat">
+                <div class="v-stat-num ${worthColor}">${worthPct}%</div>
+                <div class="v-stat-label">Worth It</div>
+              </div>
+              <div class="v-stat">
+                <div class="v-stat-num" style="color:var(--muted)">${reps.length}</div>
+                <div class="v-stat-label">Reports</div>
+              </div>
+            </div>
+            <div class="worth-bar" aria-hidden="true">
+              <div class="worth-bar-fill" style="width:${worthPct}%"></div>
+            </div>
+            <div class="venue-footer">
+              <span class="venue-hood">${esc(v.hood)}</span>
+              <span class="venue-freshness">${timeAgo(latest)}</span>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    // ── Modal
+    function openModal(venueKey) {
+      const all    = getReports();
+      const venues = groupByVenue(all);
+      const v      = venues.find(x => x.name.toLowerCase() === venueKey);
+      if (!v) return;
+
+      const reps     = v.reports.slice().sort((a,b)=>b.ts-a.ts);
+      const avg      = Math.round(reps.reduce((s,r)=>s+r.wait,0) / reps.length);
+      const worthPct = Math.round(reps.filter(r=>r.worth==='yes').length / reps.length * 100);
+      const worthColor = worthPct >= 60 ? 'green' : worthPct >= 40 ? 'gold' : '';
+
+      document.getElementById('modal-title').textContent = v.name;
+      document.getElementById('modal-sub').textContent   = v.hood + ' · ' + v.type;
+      document.getElementById('modal-bar').style.width   = worthPct + '%';
+
+      document.getElementById('modal-stats').innerHTML = `
+        <div class="modal-stat">
+          <div class="modal-stat-num gold">${avg}m</div>
+          <div class="modal-stat-label">Avg Wait</div>
+        </div>
+        <div class="modal-stat">
+          <div class="modal-stat-num ${worthColor}">${worthPct}%</div>
+          <div class="modal-stat-label">Worth It</div>
+        </div>
+        <div class="modal-stat">
+          <div class="modal-stat-num">${reps.length}</div>
+          <div class="modal-stat-label">Reports</div>
+        </div>`;
+
+      document.getElementById('modal-reports').innerHTML = reps.slice(0,8).map(r => `
+        <div class="modal-report-item ${r.worth==='yes'?'worth':'not-worth'}"
+             aria-label="${r.wait} minute wait, ${r.worth==='yes'?'worth it':'skip it'}, ${timeAgo(r.ts)}">
+          <div class="modal-report-wait">${r.wait} min</div>
+          <span class="modal-report-worth ${r.worth}">${r.worth==='yes'?'✓ Worth it':'✗ Skip it'}</span>
+          <span class="modal-report-time">${timeAgo(r.ts)}</span>
+        </div>`).join('');
+
+      document.getElementById('modal-overlay').classList.add('open');
+      document.getElementById('modal').focus();
+    }
+
+    function closeModal(e) {
+      if (e.target === document.getElementById('modal-overlay')) closeModalBtn();
+    }
+
+    function closeModalBtn() {
+      document.getElementById('modal-overlay').classList.remove('open');
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalBtn(); });
+
+    // ── Form
+    function selectHood(el) {
+      document.querySelectorAll('.hood-tag').forEach(t => { t.classList.remove('selected'); t.setAttribute('aria-pressed','false'); });
+      el.classList.add('selected'); el.setAttribute('aria-pressed','true');
+      hoodValue = el.textContent.trim();
+    }
+
+    function selectWorth(val) {
+      worthValue = val;
+      const y = document.getElementById('btn-yes');
+      const n = document.getElementById('btn-no');
+      y.className = 'toggle-btn' + (val==='yes' ? ' active-yes' : '');
+      n.className = 'toggle-btn' + (val==='no'  ? ' active-no'  : '');
+      y.setAttribute('aria-pressed', val==='yes' ? 'true' : 'false');
+      n.setAttribute('aria-pressed', val==='no'  ? 'true' : 'false');
+    }
+
+    function submitReport() {
+      const location = document.getElementById('location').value.trim();
+      const type     = document.getElementById('venue-type').value;
+      const wait     = document.getElementById('wait-time').value.trim();
+
+      if (!location)                              { alert('Enter the spot name.');     document.getElementById('location').focus();    return; }
+      if (!hoodValue)                             { alert('Select a neighborhood.');   document.querySelector('.hood-tag').focus();    return; }
+      if (!type)                                  { alert('Select a venue type.');     document.getElementById('venue-type').focus(); return; }
+      if (!wait || isNaN(wait) || Number(wait)<0) { alert('Enter a valid wait time.'); document.getElementById('wait-time').focus();  return; }
+      if (!worthValue)                            { alert('Worth it or skip it?');     document.getElementById('btn-yes').focus();    return; }
+
+      const report = { location, hood: hoodValue, type, wait: Number(wait), worth: worthValue, ts: Date.now() };
+      const reports = getReports();
+      reports.push(report);
+      saveReports(reports);
+
+      document.getElementById('location').value   = '';
+      document.getElementById('venue-type').value = '';
+      document.getElementById('wait-time').value  = '';
+      document.querySelectorAll('.hood-tag').forEach(t => { t.classList.remove('selected'); t.setAttribute('aria-pressed','false'); });
+      hoodValue = null; worthValue = null;
+      document.getElementById('btn-yes').className = 'toggle-btn';
+      document.getElementById('btn-no').className  = 'toggle-btn';
+
+      const toast = document.getElementById('toast');
+      toast.style.display = 'block';
+      setTimeout(() => toast.style.display = 'none', 3000);
+
+      renderVenues();
+    }
+
+    // init
+    renderVenues();
+    setInterval(renderVenues, 60000);
+  </script>
+</body>
+</html>
